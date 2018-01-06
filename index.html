@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<link rel="stylesheet" href="bootstrap.min.css">
+<style>
+  p {
+    word-break: break-all;
+  }
+</style>
+<script src="angular.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+
+<body>
+
+  <div ng-app="app" ng-controller="homeController">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="col-md-2 col-lg-2">
+          <label>Education</label>
+          <select ng-model="selectedEducation" class="form-control">
+            <option ng-repeat="item in educationList" value="{{item.EDUCATION}}">
+              {{item.EDUCATION}}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <label>Native Place</label>
+          <select ng-model="selectedNativeLocation" class="form-control">
+            <option ng-repeat="item in nativeLocationList" value="{{item.NATIVEPLACE}}">
+              {{item.NATIVEPLACE}}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <label>Occupation</label>
+          
+          <select ng-model="selectedEducation" class="form-control">
+            <option ng-repeat="item in occupationList" value="{{item.OCCUPATION}}">
+              {{item.OCCUPATION}}
+            </option>
+          </select>
+
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <select class="form-control" ng-model="selectedName" ng-options="item for item in list"></select>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <select class="form-control" ng-model="selectedName" ng-options="item for item in list"></select>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <select class="form-control" ng-model="selectedName" ng-options="item for item in list"></select>
+        </div>
+      </div>
+    </div>
+    <div>
+      Total Count : {{list.length}}
+    </div>
+    <div class="row" ng-repeat="row in list track by $index">
+      <div class="col-md-12 col-lg-12">
+        <div class="col-md-2 col-lg-2">
+          <div>{{$index}}</div>
+          <img src="{{row.Image}}" height="300px" width="200px">
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <p>Id :{{row.Id}}</p>
+          <p>DATEOFBIRTH:{{row.DATEOFBIRTH}}</p>
+          <p>EDUCATION :{{row.EDUCATION}}</p>
+          <p>BLOODGROUP/WEIGHT:{{row.BLOODGROUP/WEIGHT}}</p>
+          <p> HEIGHT:{{row.HEIGHT}}</p>
+          <p> OCCUPATION:{{row.OCCUPATION}}</p>
+        </div>
+        <div class="col-md-3 col-lg-3">
+          <p>HORODETAILS:{{row.HORODETAILS}}</p>
+          <p> NATIVEPLACE:{{row.NATIVEPLACE}}</p>
+          <p> PARENTSRESIDINGIN:{{row.PARENTSRESIDINGIN}}</p>
+          <p>COMPLEXION:{{row.COMPLEXION}}</p>
+          <p> FAMILYWEALTH:{{row.FAMILYWEALTH}}</p>
+          <p> FAMILYWEALTH:{{row.FAMILYWEALTH}}</p>
+        </div>
+        <div class="col-md-3 col-lg-3">
+          <p> MOTHER:{{row.MOTHER}}</p>
+          <p> RELATIVES:{{row.RELATIVES}}</p>
+          <p> EXPECTEDHEIGHT:{{row.EXPECTEDHEIGHT}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var app = angular.module("app", []);
+    var list = [];
+    var educationList = [];
+    var nativeLocationList = [];
+    var occupationList = [];
+
+    app.controller('homeController', function ($scope, $http) {
+      $http.get("AnandMaratha_Complete.json").then(function (response) {
+        $scope.list = response.data;
+        $scope.educationList = $scope.filterDropDown('EDUCATION');
+        $scope.nativeLocationList = $scope.filterDropDown('NATIVEPLACE');
+        $scope.occupationList = $scope.filterDropDown('OCCUPATION');
+      });
+
+      $scope.filterDropDown = function (keyname) {
+        return $scope.list.filter(el => {
+          var key = el[keyname];
+          if ($scope.list.indexOf(key) === -1) {
+            // If not present in array, then add it
+            return true;
+          } else {
+            // Already present in array, don't add it
+            return false;
+          }
+        });
+      }
+    });
+
+  </script>
+</body>
+
+</html>
